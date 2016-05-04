@@ -129,17 +129,6 @@ NSString * const kMagicalRecordImportAttributeUseDefaultValueWhenNotPresent = @"
     if ([relationshipInfo isToMany]) 
     {
         addRelationMessageFormat = @"add%@Object:";
-        if ([relationshipInfo respondsToSelector:@selector(isOrdered)] && [relationshipInfo isOrdered])
-        {
-            //Need to get the ordered set
-            NSString *selectorName = [[relationshipInfo name] stringByAppendingString:@"Set"];
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-            relationshipSource = [self performSelector:NSSelectorFromString(selectorName)];
-#pragma clang diagnostic pop
-            addRelationMessageFormat = @"addObject:";
-        }
     }
 
     NSString *addRelatedObjectToSetMessage = [NSString stringWithFormat:addRelationMessageFormat, MR_attributeNameFromString([relationshipInfo name])];
